@@ -58,14 +58,6 @@ EOS
     assert_equal __("Hello, World"), string
   end
 
-  def test_plus_concatenation_will_leave_the_original_strings_unmodified
-    hi = "Hello, "
-    there = "World"
-    string = hi + there
-    assert_equal __("Hello, "), hi
-    assert_equal __("World"), there
-  end
-
   def test_plus_equals_will_concatenate_to_the_end_of_a_string
     hi = "Hello, "
     there = "World"
@@ -73,7 +65,7 @@ EOS
     assert_equal __("Hello, World"), hi
   end
 
-  def test_plus_equals_also_will_leave_the_original_string_unmodified
+  def test_plus_equals_will_leave_the_original_string_unmodified
     original_string = "Hello, "
     hi = original_string
     there = "World"
@@ -131,8 +123,8 @@ EOS
   end
 
   def test_any_ruby_expression_may_be_interpolated
-    string = "The square root of 5 is #{Math.sqrt(5)}"
-    assert_equal __("The square root of 5 is 2.23606797749979"), string
+    string = "The square root of 5 is #{Math.sqrt(5).round(2)}"
+    assert_equal __("The square root of 5 is 2.24"), string
   end
 
   def test_you_can_get_a_substring_from_a_string
@@ -146,22 +138,6 @@ EOS
     assert_equal __(97, 'a'), string[1]
 
     # Surprised?
-  end
-
-  in_ruby_version("1.8") do
-    def test_in_ruby_1_8_single_characters_are_represented_by_integers
-      assert_equal __(97, 'a'), ?a
-      assert_equal __(true, false), ?a == 97
-
-      assert_equal __(true), ?b == (?a + 1)
-    end
-  end
-
-  in_ruby_version("1.9") do
-    def test_in_ruby_1_9_single_characters_are_represented_by_strings
-      assert_equal __('a'), ?a
-      assert_equal __(false), ?a == 97
-    end
   end
 
   def test_strings_can_be_split
